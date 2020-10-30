@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Vue.js render function example</title>
+    <script src="../../dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script>
+        Vue.component('II', {
+            render: function (c) {
+                const vnode = c('i', {
+                    props: {
+                        time: Number
+                    },
+                    domProps: {
+                        innerHTML: ' （' + this.$attrs.time + '） 次'
+                    }
+                })
+                return vnode
+            }
+        })
+        new Vue({
+            el: '#app',
+            data: () => {
+                return {
+                    color: 'red',
+                    time: 0
+                }
+            },
+            methods: {
+                handleClick() {
+                    this.color = 'orange'
+                }
+            },
+            render: function (c) {
+                const vnode = c('div', {
+                    style: {
+                        color: this.color
+                    },
+                    on: {
+                        click: (() => {
+                            this.color = 'orange'
+                        }).bind(this)
+                    }
+                }, [
+                    'Render Function',
+                    c('II', {
+                        attrs: { time: this.time }
+                    }),
+                    // c('ul', [
+                    //     ...(() => {
+                    //         let res = []
+                    //         for(let i = 0; i < 5; i++) {
+                    //             res.push(c('li', {
+                    //                 domProps: {
+                    //                     innerHTML: 'Item' + i
+                    //                 }
+                    //             }))
+                    //         }
+                    //         return res
+                    //     })()
+                    // ])
+                ])
+                return vnode
+            },
+            mounted() {
+                setInterval(() => {
+                    this.time += 1
+                }, 1000)
+            }
+        })
+    </script>
+</body>
+
+</html>
