@@ -14,6 +14,18 @@
     </div>
     <script>
         Vue.component('II', {
+            beforeCreate() {
+                console.log('child beforeCreated')
+            },
+            created() {
+                console.log('child created')
+            },
+            beforeMount() {
+                console.log('child beforeMount')
+            },
+            mounted() {
+                console.log('child mounted')
+            },
             render: function (c) {
                 const vnode = c('i', {
                     props: {
@@ -70,7 +82,17 @@
                 ])
                 return vnode
             },
+            beforeCreate() {
+                console.log('parent beforeCreated')
+            },
+            created() {
+                console.log('parent created')
+            },
+            beforeMount() {
+                console.log('parent beforeMount')
+            },
             mounted() {
+                console.log('parent mounted')
                 setInterval(() => {
                     this.time += 1
                 }, 1000)
